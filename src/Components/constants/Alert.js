@@ -1,7 +1,7 @@
 
 const Alert=(props)=>{
     console.log(props)
-    if(props.error==='Please Check you Email')
+    if(props.error.i==='Please Check you Email')
     {
         return (
             <>
@@ -69,7 +69,7 @@ const Alert=(props)=>{
             }
         </div>
     )
-        }
+        } 
 }
 
 export default Alert;

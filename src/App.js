@@ -9,6 +9,11 @@ import Inbox from "./Components/Inbox/Inbox";
 import Discord from "./Components/Discord/Discord";
 import Profile from "./Components/Profile/Profile";
 import Landing from "./Components/Landing/Landing";
+import app from './firebase/Config';
+import ClgInbox from "./Components/Inbox/ClgInbox";
+import Verify from "./Components/Discord/Verify";
+import ShowStudents from "./Components/Profile/ShowStudents";
+
 function App() {
   return (
     <div className="App">
@@ -18,10 +23,10 @@ function App() {
           <Route path="/clogin" element={<CollegeLogin/>} />
           <Route path="/login" element={<Login/>} />
           <Route path="/Registration" element={<Registeration1/>} />
-          <Route path="/Inbox" element={<Inbox/>} />
+          <Route path="/Inbox" element={<ClgInbox/>} />
           <Route path="/home" element={<Home/>} />
-          <Route path="/discord" element={<Discord/>}/>
-          <Route path="/profile" element={<Profile/>} />
+          <Route path="/discord" element={<Verify/>}/>
+          <Route path="/profile" element={<ShowStudents/>} />
          </Routes>
          </BrowserRouter>
     </div>

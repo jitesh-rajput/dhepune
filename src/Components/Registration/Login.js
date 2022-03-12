@@ -1,7 +1,7 @@
 import React from "react";
 //import './Registeration.css';
 import Header2 from "../constants/Header/Header2";
-//import CheckLogin from "../../firebase/CheckLogin";
+import CheckLogin from "../../firebase/CheckLogin";
 import Alert from '../constants/Alert'
 import { Link, Navigate } from 'react-router-dom';
 
@@ -16,7 +16,7 @@ class Login extends React.Component {
       this.loginUser=async(event)=>{
         event.preventDefault();
         console.log(this.state)
-         //this.setState({error: await CheckLogin(this.state)}) 
+         this.setState({error: await CheckLogin(this.state)}) 
       }
   }
     render() {
