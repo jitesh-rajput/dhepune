@@ -4,8 +4,9 @@ import ShowHeader from "../constants/Header/ShowHeader";
 import { Navigate } from "react-router-dom";
 import Select from "react-select";
 import firebase from "firebase";
+import Permission from "../constants/Permision";
 
-class ClgInbox extends React.Component{
+class UniInbox extends React.Component{
     componentDidMount(){
         firebase.auth().onAuthStateChanged((user) => {
             if (user) {
@@ -32,14 +33,13 @@ class ClgInbox extends React.Component{
                 {label:'user1' ,value:1},
                 {label:'user2' , value:2}
             ]
-        if(this.state.user.displayName==="Institute"){
+        if(this.state.user.displayName==="Admin"){
         return(
             <div>
                 <ShowHeader user={this.state.user.displayName}/>
-    
                 <div className="container pt-5 ">
                     <div className=" container row mt-5 ">
-                    <h3 className="text-center pt-5"> Colleage Inbox</h3>
+                    <h3 className="text-center pt-5"> Adminstrator Inbox</h3>
                     <div className="col-10 col-sm-4">
                     <div className="dropdown m-4 text-center">
                     <Select options={users}
@@ -80,9 +80,9 @@ class ClgInbox extends React.Component{
         )
     }
     else{
-        return(<h2>Permission Denied..!</h2>)
-    }
+        return(<Permission/>)
     }
 }
 }
-export default ClgInbox;
+}
+export default UniInbox;

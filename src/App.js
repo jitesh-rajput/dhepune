@@ -13,6 +13,8 @@ import app from './firebase/Config';
 import ClgInbox from "./Components/Inbox/ClgInbox";
 import Verify from "./Components/Discord/Verify";
 import ShowStudents from "./Components/Profile/ShowStudents";
+import UniInbox from "./Components/Inbox/UniInbox";
+import AllStudents from "./Components/Discord/AllStudents";
 
 function App() {
   return (
@@ -23,10 +25,15 @@ function App() {
           <Route path="/clogin" element={<CollegeLogin/>} />
           <Route path="/login" element={<Login/>} />
           <Route path="/Registration" element={<Registeration1/>} />
-          <Route path="/Inbox" element={<ClgInbox/>} />
+          <Route path="/Inbox" element={<Inbox/>}/>
+          <Route path="/ClgInbox" element={<ClgInbox/>} />
+          <Route path="/UniInbox" element={<UniInbox/>} />
           <Route path="/home" element={<Home/>} />
-          <Route path="/discord" element={<Verify/>}/>
-          <Route path="/profile" element={<ShowStudents/>} />
+          <Route path="/allstudent" element={<AllStudents/>}/>
+          <Route path="/discord" element={<Discord/>} />
+          <Route path="/profile" element={<Profile/>} />
+          <Route path="/showstudents" element={<ShowStudents/>} />
+          <Route path="/verify" element={<Verify/>}/>
          </Routes>
          </BrowserRouter>
     </div>

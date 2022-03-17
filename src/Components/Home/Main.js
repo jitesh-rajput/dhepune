@@ -1,101 +1,135 @@
 
 import React from "react";
-import Header from "../constants/Header/Header";
+import ShowHeader from "../constants/Header/ShowHeader";
 import firebase from "firebase";
-import { Navigate } from "react-router-dom";
-import { FaEyeSlash ,FaEye,FaRegEdit,FaTrash ,FaSave} from "react-icons/fa";
+import { Link, Navigate } from "react-router-dom";
+import {FaTrash} from 'react-icons/fa'
+import AddNotice from "./AddNotice";
 
-const Portalcard=()=>{
+const Portalcard=(data)=>{
+    console.log(data)
+    let role=data.role
+    data=data.data
+    if(role==="Institute" || role==="Admin"){
+    const DeletePost=(id)=>{
+        if(window.confirm("Are you sure want to delete ..!")===true){
+        firebase.firestore().collection('Instituteportal')
+              .doc(`${id}`)
+              .delete().then(()=>{
+                  console.log("deleted ..!")
+              })
+    }
+    }
     return(
     <div className="py-2">
         <div className="d-flex justify-content-between">
-        <h5 className="card-title l-0">Dark card title</h5>
-        <span><FaTrash size={15} color="red"/></span> 
+        <h5 className="card-title l-0">{data.title}</h5>
+        <span>
+        <FaTrash size={15} color="red"
+            onClick={()=>{DeletePost(data.id)}}
+        />
+        </span> 
         </div>
         <p className="card-text">
-            Some quick example text to build on the card title and make up the bulk
-            of the card's content.
-            
+           {data.desc}
         </p>
+        <Link to={`${data.link}`}>
+            {data.link}
+        </Link>
     </div>
     )
+    }
+    else{
+    return(
+        <div className="py-2">
+            <div className="d-flex justify-content-between">
+            <h5 className="card-title l-0">{data.title}</h5>
+            </div>
+            <p className="card-text">
+           {data.desc}
+            </p>
+            <Link to={`${data.link}`}>
+            {data.link}
+            </Link>
+        </div>
+    )
+    }
 }
 
 class Main extends React.Component{
     componentDidMount(){
-        /*firebase.auth().onAuthStateChanged((user) => {
+        firebase.auth().onAuthStateChanged((user) => {
             if (user) {
               console.log("Authenticated")
               this.setState({user:user})
+              firebase.firestore().collection('Instituteportal')
+              .where("clgname","==","pccoer")
+              .onSnapshot((snapshot)=>{
+                let clg = snapshot.docs.map(doc => {
+                    const data = doc.data();
+                    const id = doc.id;
+                    return { id, ...data }
+                })
+                    console.log(clg)
+                    this.setState({clgnotice:clg})
+            })
+
             } else {
               console.log("Not Authenticated")
               this.setState({user:null})
             }
-          });*/
+          })
     }
     constructor(){
         super()
         this.state={
-            user:'none'
+            user:'none',
+            clgnotice:[]
         }
     }
     render(){
-        console.log(this.state.user)
+        const LogOut=(e)=>{
+            e.preventDefault();
+            sessionStorage.clear();
+            firebase.auth().signOut();
+            console.log("User Signed Out !")
+            this.setState({logout:true})
+          }
         if(this.state.user===null){
             return(<Navigate to="/login" replace={true}/> )
         }
         else{
         return(
             <div>
-                <Header/>
+                <ShowHeader user={this.state.user.displayName}/>
                 <div className="container pt-5 ">
                 
                     <div className="row mt-5 ">
                     <div className="card border-dark mb-3 col-10 col-sm-5 mt-5 mx-4" >
                         <div className="card-header text-center"><h5>College Portal</h5></div>
                         <div className="card-body text-dark">
-                        <Portalcard/>
-                        <Portalcard/>
-                   
+                        {this.state.clgnotice.map(data=>(
+                            <Portalcard role={this.state.user.displayName} data={data} key={data.id}/>
+                        ))}
+                       
                         </div>
                     </div>
                   
                     <div className="card border-dark mb-3 col-10 col-sm-5 mt-5 mx-4" >
                         <div className="card-header text-center"><h5>University Portal</h5></div>
                         <div className="card-body text-dark">
-                        <h5 className="card-title">Dark card title</h5>
-                        <p className="card-text">
-                            Some quick example text to build on the card title and make up the bulk
-                            of the card's content.
-                        </p>
-                        <h5 className="card-title">Dark card title</h5>
-                        <p className="card-text">
-                            Some quick example text to build on the card title and make up the bulk
-                            of the card's content.
-                        </p>
-                        <h5 className="card-title">Dark card title</h5>
-                        <p className="card-text">
-                            Some quick example text to build on the card title and make up the bulk
-                            of the card's content.
-                        </p>
+                        {this.state.clgnotice.map(data=>(
+                            <Portalcard role={null} data={data} key={data.id}/>
+                        ))}
                         </div>
                     </div>
                     </div>
-                <div className="row py-4">
-                <form className="col-6 m-auto">
-                <h5>Add Notice</h5>
-                    <div className="form-group">
-                    <label>Title</label>
-                    <input type="email" className="form-control" />
+                    <div className="row">
+                        <div className="col-lg-6">
+                        <a className="col m-3 px-5 py-2 btn btn-info" onClick={LogOut} >Log Out</a>
+                        </div>
                     </div>
-                    <div className="form-group">
-                    <label>Description</label>
-                    <textarea className="form-control" rows={3} defaultValue={""} />
-                    </div>
-                    <button className="btn btn-info mt-2">Share</button>
-                </form>
-                </div>
-
+                    <AddNotice role={this.state.user.displayName} />
                 </div>
             </div>
         )

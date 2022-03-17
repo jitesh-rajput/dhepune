@@ -2,7 +2,7 @@
 
 import { Link } from "react-router-dom";
 
-const Header =()=>{
+const AdminHeader =()=>{
     const user="admin"
     let active=""
     if((window.location.href).includes('inbox')){
@@ -11,11 +11,11 @@ const Header =()=>{
     if((window.location.href).includes('home')){
       active="home"
     }
-    if((window.location.href).includes('profile')){
-      active="profile"
+    if((window.location.href).includes('logout')){
+      active="logout"
     }
-    if((window.location.href).includes('discord')){
-      active="discord"
+    if((window.location.href).includes('allstudent')){
+      active="allstudent"
     }
     
     return(
@@ -47,7 +47,7 @@ const Header =()=>{
           </Link>
         </li>
         <li className="nav-item">
-          <Link to="/inbox"
+          <Link to="/UniInbox"
           //className="text-decoration-none text-white px-3 mx-4 nav-link text-center nav-link"
            className={(active==="inbox") ? 'active px-3 mx-4 nav-link text-center btn-info btn':'px-3 mx-4 nav-link text-center nav-link'}
             >
@@ -55,23 +55,21 @@ const Header =()=>{
           </Link>
         </li>
         <li className="nav-item">
-        <Link to="/discord"
+        <Link to="/allstudent"
         //className="text-decoration-none text-white px-3 mx-4 nav-link text-center nav-link"
-        className={(active==="discord") ? 'active px-3 mx-4 nav-link text-center btn-info btn':'px-3 mx-4 nav-link text-center nav-link'}
+        className={(active==="allstudent") ? 'active px-3 mx-4 nav-link text-center btn-info btn':'px-3 mx-4 nav-link text-center nav-link'}
           >
-           <h5>DISCORD</h5> 
+           <h5>DATA</h5> 
           </Link>
         </li>
-
         <li className="nav-item">
           <Link to="/profile" 
-          //className="text-decoration-none text-white px-3 mx-4 nav-link text-center btn-info btn"
-          className={(active==="profile") ? 'active px-3 mx-4 nav-link text-center btn btn-info':'px-3 mx-4 nav-link text-center nav-link'}
-          >
-           <h5>PROFILE</h5> 
+          //className="text-decoration-none text-white px-3 mx-4 nav-link text-center nav-link"
+          className={(active==="logout") ? 'active px-3 mx-4 nav-link text-center btn-info btn':'px-3 mx-4 nav-link text-center nav-link'}
+           >
+           <h5>LOGOUT</h5> 
           </Link>
         </li>
-        
       </ul>
     </div>
   </div>
@@ -81,4 +79,4 @@ const Header =()=>{
     )
 }
 
-export default Header;
+export default AdminHeader;

@@ -1,6 +1,7 @@
-import Header from "../constants/Header/Header";
+import ShowHeader from '../constants/Header/ShowHeader';
+import firebase from 'firebase';
 import React from 'react';
-
+import { Navigate } from 'react-router-dom';
 const VerifyCard=()=>{
     return(
         <div className="col-sm-4 py-3">
@@ -41,7 +42,7 @@ const VerifyCard=()=>{
                     </table>
                     </p>
                     <div className="d-flex justify-content-between">
-                    <a href="#" className="btn btn-danger">
+                    <a className="btn btn-danger">
                     Reject
                     </a>
                     <button className="btn btn-info">Verify</button>
@@ -52,10 +53,33 @@ const VerifyCard=()=>{
     )
 }
 class Verify extends React.Component{
+    componentDidMount(){
+        firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+              console.log("Authenticated")
+              this.setState({user:user})
+            } else {
+              console.log("Not Authenticated")
+              this.setState({user:null})
+            }
+          });
+    }
+    constructor(){
+        super()
+        this.state={
+            user:'none'
+        }
+    }
     render(){
+    if(this.state.user===null){
+        return(<Navigate to="/login" replace={true}/> )
+    }
+    else{
+        console.log(this.state.user.displayName);
+        if(this.state.user.displayName==="Institute"){
         return(
             <div>
-            <Header/>
+            <ShowHeader user={this.state.user.displayName}/>
             <div className="container py-5">
             <h3 className="pt-5 text-center mt-3">Verify Alumni Students </h3>
                 <div className="row pt-4">
@@ -68,6 +92,11 @@ class Verify extends React.Component{
             </div>
         )
     }
+    else{
+       return (<h2 className='text-center py-5'>Permission Denied ..!"</h2>)
+    }
+}
+}
 }
 
 export default Verify;

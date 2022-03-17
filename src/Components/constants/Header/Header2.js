@@ -46,16 +46,13 @@ const Header2 =()=>{
                 </Link>
               </ul>
             </div>
-
               <Link to="/Registration" className="nav-link text-center">
               <li className='nav-item mb-1 btn btn-info text-white'>
                   Registeration
               </li>
               </Link>
               </ul>
-
-    </div>
-           
+          </div>  
           </div>
           </nav>
         </div>

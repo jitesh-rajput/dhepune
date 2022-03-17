@@ -14,7 +14,7 @@ require('firebase/firestore')
                     console.log(firebase.auth().currentUser.displayName)
                    })
                 console.log("Somethis is going on - ")
-                 firebase.firestore().collection("users")
+                 firebase.firestore().collection("students")
                       .doc(firebase.auth().currentUser.uid)
                       .set(
                           {
@@ -30,19 +30,39 @@ require('firebase/firestore')
                               pdate
                           }
                       )
+                      
                  console.log(user)
                  user.sendEmailVerification().then(()=>{
                      console.log("Check email")
                  })
+                .catch((error) => {
+                console.log(error.message)
+                return error.message
+                }) 
                  console.log(firebase.auth().currentUser.emailVerified)
                  //return "Account Created"
                 return "Please Verify your Email.."
+              
+              /*
+               firebase.auth().currentUser.updateProfile({displayName:"Institute"}).then(()=>{
+                    console.log(firebase.auth().currentUser.displayName)
+                   })
+              firebase.firestore().collection("Institutes")
+              .doc(firebase.auth().currentUser.uid)
+              .set(
+                  {
+                      uid:firebase.auth().currentUser.uid,
+                      email,
+                      clgname:'pccoer',
+                  }
+              )
+              .then(()=>{
+                return "Please Verify your Email.."
               })
-          .catch((error) => {
-             console.log(error.message)
-             return error.message
-           }) 
-           return err;
-        }
+              */
+        
+           
+        })
+    }
 
 export default CreateUser;

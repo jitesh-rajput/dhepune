@@ -1,12 +1,35 @@
 
 import React from "react";
-import Header from "../constants/Header/Header";
-
+import ShowHeader from "../constants/Header/ShowHeader";
+import { Navigate } from "react-router-dom";
+import firebase from "firebase";
 class Inbox extends React.Component{
+    componentDidMount(){
+        firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+              console.log("Authenticated")
+              this.setState({user:user})
+            } else {
+              console.log("Not Authenticated")
+              this.setState({user:null})
+            }
+          });
+    }
+    constructor(){
+        super()
+        this.state={
+            user:'none'
+        }
+    }
     render(){
-        return(
-            <div>
-                <Header/>
+    if(this.state.user===null){
+        return(<Navigate to="/login" replace={true}/> )
+    }
+    else{
+    if(this.state.user.displayName==="Student"){
+    return(
+        <div>
+            <ShowHeader user={this.state.user.displayName}/>
                 <div className="container pt-5 ">
                     <div className="row mt-5 ">
                     <h3 className="text-center pt-5">Inbox</h3>
@@ -26,15 +49,19 @@ class Inbox extends React.Component{
                             of the card's content.
                         </p>
                         </div>
-                        <div class="card-footer text-muted">
+                        <div className="card-footer text-muted">
                         2 days ago
                         </div>
                     </div>
-
                     </div>
                 </div>
             </div>
         )
     }
+    else{
+        return(<h2>Permission Denied..!</h2>)
+    }
+}
+}
 }
 export default Inbox;

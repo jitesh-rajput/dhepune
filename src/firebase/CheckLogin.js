@@ -9,6 +9,14 @@ const CheckLogin=async(data)=> {
            const user=firebase.auth().currentUser
            console.log(user.emailVerified)
            if(user.emailVerified){
+            /* firebase.auth().currentUser.updateProfile({displayName:"Institute"}).then(()=>{
+                console.log(firebase.auth().currentUser.displayName)
+               })
+               
+             firebase.auth().currentUser.updateProfile({displayName:"Student"}).then(()=>{
+                console.log(firebase.auth().currentUser.displayName)
+               })
+               */
            sessionStorage.setItem("user",user.uid)
            sessionStorage.setItem("token",user.refreshToken)
             err="Login"
