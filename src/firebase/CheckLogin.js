@@ -1,8 +1,24 @@
 import firebase from "firebase"
 
 const CheckLogin=async(data)=> {
-    let err;
+    let err,isValide;
     const { email, password } = data;
+    if(email){
+        await firebase.firestore().collection('students')
+        .where("email","==",email)
+        .get().then((snapshot) => {
+           isValide = snapshot.docs.map(doc => {
+               console.log(doc.data)
+              return doc.data().isVerified
+          })
+         console.log(isValide)
+         err=isValide[0]==='true'?'':"Account Verfication Pending .. "
+         err=isValide[0]==="block"?'Institute Block Your Request ..!':''
+      })
+      console.log(err)
+    }
+    console.log(isValide)
+    if(!err){
     await firebase.auth().signInWithEmailAndPassword(email, password)
         .then((results) => {
            console.log(results)
@@ -17,8 +33,7 @@ const CheckLogin=async(data)=> {
                 console.log(firebase.auth().currentUser.displayName)
                })
                */
-           sessionStorage.setItem("user",user.uid)
-           sessionStorage.setItem("token",user.refreshToken)
+    
             err="Login"
            }
            else{
@@ -42,7 +57,10 @@ const CheckLogin=async(data)=> {
                 //setLoading(false)
             }
         })
-        return err;
+    }
+    console.log(err)
+    return err
+    
 }
 
 export default CheckLogin;

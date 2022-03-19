@@ -1,7 +1,7 @@
 import React from "react";
 //import './Registeration.css';
 import Header2 from "../constants/Header/Header2";
-//import CheckLogin from "../../firebase/CheckLogin";
+import firebase from "firebase";
 import Alert from '../constants/Alert'
 import { Link, Navigate } from 'react-router-dom';
 
@@ -13,12 +13,38 @@ class CollegeLogin extends React.Component {
         password:'',
         error:null,
       }
-      this.loginUser=async(event)=>{
-        event.preventDefault();
-        console.log(this.state)
-         //this.setState({error: await CheckLogin(this.state)}) 
-      }
-  }
+      this.login=(event)=>{
+        event.preventDefault()
+     firebase.auth().signInWithEmailAndPassword(this.state.email,this.state.password )
+        .then((results) => {
+              if(firebase.auth().currentUser.displayName==="Institute"){
+                this.setState({error:"Login"})
+              }
+              else{
+                this.setState({error:"Credential Not Valid"})
+              }
+         //
+           
+        
+        })
+        .catch((error) => {
+            if (error.message === "There is no user record corresponding to this identifier. The user may have been deleted.") {
+               // err="No User Found";
+                //setLoading(false)
+            }
+            else if (error.message === "The email address is badly formatted.") {
+               // err="Please enter valid mail"
+            }
+            else {
+                console.log(error.message)
+                //err=error.message;
+                //setLoading(false)
+            }
+        })
+    }
+   // console.log(err)
+
+}
     render() {
       if(this.state.error==="Login"){
         return (<Navigate to="/home" replace={true} />)
@@ -35,12 +61,13 @@ class CollegeLogin extends React.Component {
             { this.state.error? <Alert error={this.state.error}/> :''}
 
             <div className="col-10 col-sm-6 col-lg-4 m-auto">
-            <form onSubmit={this.loginUser}>
+            <form onSubmit={this.login}>
                 <div className="mb-3">
                   <label className="form-label">Email</label>
                   <input type="email" className="form-control" id="Email" aria-describedby="email"
                   value={this.state.email}
                   onChange={event => this.setState({ email: event.target.value })}
+                  required
                   />
                 </div>
                 <div className="mb-3">
@@ -48,6 +75,7 @@ class CollegeLogin extends React.Component {
                   <input type="password" className="form-control" id="Password" 
                   value={this.state.password}
                   onChange={event => this.setState({ password: event.target.value })}
+                  required
                   />
                 </div>
                 <div className="text-center">
@@ -55,10 +83,6 @@ class CollegeLogin extends React.Component {
                 </div>
             </form>
           </div>
-      </div>
-
-      <div className="row text-center">
-      <Link className="text-decoration-none" to="/forgetpassword" style={{color:" rgb(26, 236, 250)"}}>Forget Password ?</Link>
       </div>
     </div>
  </div>

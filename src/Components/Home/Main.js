@@ -62,17 +62,51 @@ class Main extends React.Component{
             if (user) {
               console.log("Authenticated")
               this.setState({user:user})
-              firebase.firestore().collection('Instituteportal')
-              .where("clgname","==","pccoer")
-              .onSnapshot((snapshot)=>{
-                let clg = snapshot.docs.map(doc => {
-                    const data = doc.data();
-                    const id = doc.id;
-                    return { id, ...data }
-                })
+              console.log(user)
+              // Check for login tpye
+              if(user.displayName==="Student"){
+                // fetch student college detail 
+                firebase.firestore().collection('students')
+                .where("uid","==",user.uid)
+                .onSnapshot((snapshot) => {
+                  let clgid = snapshot.docs.map(doc => {
+                      return doc.data().clgid; 
+                  })
+                 this.setState({ collegeid: clgid [0] })
+                 
+                // fetch institute portal 
+                console.log(this.state.collegeid)
+                firebase.firestore().collection('Instituteportal')
+                .where("clgid","==",`${this.state.collegeid}`)
+                .onSnapshot((snapshot)=>{
+                    let clg = snapshot.docs.map(doc => {
+                        const data = doc.data();
+                        const id = doc.id;
+                        return { id, ...data }
+                    })
                     console.log(clg)
-                    this.setState({clgnotice:clg})
-            })
+                    this.setState({clgnotice:clg , clgname:clg[0].clgname})
+                })
+              })
+            }
+
+            if(user.displayName==="Institute"){   
+                // fetch institute portal 
+
+                firebase.firestore().collection('Instituteportal')
+                .where("clgid","==",`${user.uid}`)
+                .onSnapshot((snapshot)=>{
+                    let clg = snapshot.docs.map(doc => {
+                        const data = doc.data();
+                        const id = doc.id;
+                        return { id, ...data }
+                    })
+                    console.log(clg)
+                    this.setState({clgnotice:clg , clgname:clg[0].clgname})
+                })
+            
+            }
+
 
             } else {
               console.log("Not Authenticated")
@@ -84,6 +118,7 @@ class Main extends React.Component{
         super()
         this.state={
             user:'none',
+            collegeid:'',
             clgnotice:[]
         }
     }
@@ -105,8 +140,8 @@ class Main extends React.Component{
                 <div className="container pt-5 ">
                 
                     <div className="row mt-5 ">
-                    <div className="card border-dark mb-3 col-10 col-sm-5 mt-5 mx-4" >
-                        <div className="card-header text-center"><h5>College Portal</h5></div>
+                    <div className="card border-dark mb-3 col-10 mt-5 mx-4" >
+                        <div className="card-header text-center"><h5>{this.state.clgname} Portal</h5></div>
                         <div className="card-body text-dark">
                         {this.state.clgnotice.map(data=>(
                             <Portalcard role={this.state.user.displayName} data={data} key={data.id}/>
@@ -115,7 +150,7 @@ class Main extends React.Component{
                         </div>
                     </div>
                   
-                    <div className="card border-dark mb-3 col-10 col-sm-5 mt-5 mx-4" >
+                    <div className="card border-dark mb-3 col-10  mt-5 mx-4" >
                         <div className="card-header text-center"><h5>University Portal</h5></div>
                         <div className="card-body text-dark">
                         {this.state.clgnotice.map(data=>(

@@ -3,11 +3,26 @@ import React from "react";
 import Alert from "../constants/Alert";
 import Select from 'react-select';
 import CreateUser from "../../firebase/CreateUser";
+import firebase from "firebase";
 
 class Registeration1 extends React.Component {
+  componentDidMount(){
+    firebase.firestore().collection("Institutes")
+    .get().then((snapshot) => {
+      let data = snapshot.docs.map(doc => {
+          const label = doc.data().clgname;
+          const value = doc.id;
+          return { value, label }
+      })
+      console.log(data)
+      this.setState({allcolleage:data})
+    })
+  }
+
   constructor(props) {
     super(props)
     this.state = {
+      allcolleage:[],
       sirname: '',
       name: '',
       mname: '',
@@ -26,13 +41,25 @@ class Registeration1 extends React.Component {
     }
     this.createAccount = async(event) => {
       event.preventDefault();
-      if (this.state.password1 !== this.state.password2) {
-        this.setState({ error: "Password Must Be Same ..!" })
+      if(
+        this.state.branch==="" | this.state.branch===""|
+        this.state.password1==="" | this.state.email===""|
+        this.state.mname==="" | this.state.name===""|
+        this.state.occupation==="" | this.state.pdate===""|
+        this.state.colleage==="" | this.state.sirname===""
+      )
+      {
+        this.setState({ error: "All Field Must Required ..!" })
       }
       else {
-        console.log(this.state)
-        this.setState({error: await CreateUser(this.state)}) 
-        //console.log(CreateUser(this.state))
+        if(this.state.password1 !== this.state.password2) {
+          this.setState({ error: "Password Must Be Same ..!" })
+        }
+        else{
+          console.log(this.state)
+          this.setState({error: await CreateUser(this.state)}) 
+           console.log(this.state.error)
+        }
       }
     }
   }
@@ -42,28 +69,6 @@ class Registeration1 extends React.Component {
       { label: "Science", value: 2 },
       { label: "Law", value: 3 },
       { label: "Engineering", value: 4 },
-    ]
-    const branch = [
-      { label: "Computer Engineering", value: 1 },
-      { label: "Electrical Engineering", value: 2 },
-      { label: "Electronics and Telecommunication", value: 3 },
-      { label: "Mechanical Engineering ", value: 4 },
-      { label: "Civil Engineering ", value: 5 }
-    ];
-    const university = [
-      { label: "Mumbai University, Mumbai", value: 1 },
-      { label: "S.N.D.T. University, Mumbai", value: 2 },
-      { label: "Savitribai Phule Pune University, Pune", value: 3 },
-      { label: "Shivaji University, Kolhapur ", value: 4 },
-      { label: "Solapur University, Solapur", value: 5 },
-      { label: "Dr. Babasaheb Ambedkar Marathwada University, Aurangabad", value: 6 },
-      { label: "Swami Ramanand Teerth Marathwada University, Nanded", value: 7 },
-      { label: "North Maharashtra University, Jalgaon", value: 8 },
-      { label: "Sant Gadge Baba Amravati University, Amravati ", value: 9 },
-      { label: "Rashtrasant Tukadoji Maharaj Nagpur University, Nagpur", value: 10 },
-      { label: "Gondwana University, Gadchiroli", value: 11 },
-      { label: "Kavi Kulguru Kalidas Sanskrit University, Ramtek Dist. Nagpur", value: 12 },
-      { label: "Yashwantrao Chavan Open University, Nashik", value: 13 },
     ]
     return (
       <div>
@@ -130,11 +135,11 @@ class Registeration1 extends React.Component {
                 <div className="col-md-5 col-10 mx-4">
                   <div className="m-4">
                     <label htmlFor="startDate">Passing Out Date</label>
-                    <input id="startDate" className="form-control" type="date"></input>
+                    <input id="startDate" className="form-control" type="date" required></input>
                   </div>
 
                   <div className="dropdown m-4 text-center">
-                    <Select options={university}
+                    <Select options={this.state.allcolleage}
                       value={this.state.colleage}
                       onChange={(value) => this.setState({ colleage: value })}
                       placeholder="Select University"

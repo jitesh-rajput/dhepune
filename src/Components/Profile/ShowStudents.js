@@ -8,12 +8,20 @@ class ShowStudents extends React.Component{
     componentDidMount(){
         firebase.auth().onAuthStateChanged((user) => {
             if (user) {
-              console.log("Authenticated")
+              console.log("Authenticated",user.uid)
               this.setState({user:user})
               firebase.firestore().collection('students')
-              .doc().get().then((data)=>{
-                  console.log(data)
-              })
+              .where("clgid","==",user.uid)
+              .onSnapshot((snapshot) => {
+                let data = snapshot.docs.map(doc => {
+                    const data = doc.data();
+                    const id = doc.id;
+                    return { id, ...data }
+                })
+                console.log(data)
+               this.setState({ students: data })
+            })
+
             } else {
               console.log("Not Authenticated")
               this.setState({user:null})
@@ -23,7 +31,8 @@ class ShowStudents extends React.Component{
     constructor(){
         super()
         this.state={
-            user:'none'
+            user:'none',
+            students:[]
         }
     }
     render(){
@@ -82,7 +91,10 @@ class ShowStudents extends React.Component{
             </div>
 
             <div className="row pt-4">
-                <VerifyCard/>
+            {this.state.students.map(data=>(
+             <VerifyCard data={data} key={data.id}/>
+           ))}     
+               
             </div>
             </div>
             </div>

@@ -15,6 +15,7 @@ import Verify from "./Components/Discord/Verify";
 import ShowStudents from "./Components/Profile/ShowStudents";
 import UniInbox from "./Components/Inbox/UniInbox";
 import AllStudents from "./Components/Discord/AllStudents";
+import ClgRegister from "./Components/Registration/ClgRegister";
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
           <Route path="/profile" element={<Profile/>} />
           <Route path="/showstudents" element={<ShowStudents/>} />
           <Route path="/verify" element={<Verify/>}/>
+          <Route path="/clg" element={<ClgRegister/>} />
          </Routes>
          </BrowserRouter>
     </div>

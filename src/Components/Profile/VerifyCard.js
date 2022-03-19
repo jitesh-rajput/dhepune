@@ -1,4 +1,9 @@
-const VerifyCard=()=>{
+const VerifyCard=(data)=>{
+    data=data.data
+    let pdate=new Date(data.pdate).getMonth()+'/'+new Date(data.pdate).getFullYear()
+    let danger=data.isVerified==="block"?'bg-danger':null
+    let success=data.isVerified==="true"?'bg-success':null
+    let dark=data.isVerified==="false"?'bg-dark':null
     return(
         <div className="py-3">
             <table className="table table-bordered">
@@ -13,19 +18,21 @@ const VerifyCard=()=>{
                     <th scope="col">Email</th>
                     <th scope="col">Occupation</th>
                     <th scope="col">Passing Out Date</th>
+                    <th scope="col">isVerified</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                     <th scope="row">1</th>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>Xuk</td>
-                    <td>Pimpari Chinchwad Colleage of Engineering and Research Reavet</td>
-                    <td>Science</td>
-                    <td>p7872378@gmail.com</td>
-                    <td>Engineering</td>
-                    <td>Otto</td>
+                    <td>{data.name}</td>
+                    <td>{data.sirname}</td>
+                    <td>{data.mname}</td>
+                    <td>{data.colleage}</td>
+                    <td>{data.stream}</td>
+                    <td>{data.email}</td>
+                    <td>{data.occupation}</td>
+                    <td>{pdate}</td>
+                    <td className= {`${danger} ${success} ${dark} text-white`} >{data.isVerified}</td>
                     </tr>
                 </tbody>
                 </table>

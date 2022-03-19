@@ -3,7 +3,7 @@ import React from "react";
 import Header2 from "../constants/Header/Header2";
 import CheckLogin from "../../firebase/CheckLogin";
 import Alert from '../constants/Alert'
-import { Link, Navigate } from 'react-router-dom';
+import { Link, Navigate} from 'react-router-dom';
 
 class Login extends React.Component {
   constructor(props){
@@ -17,6 +17,7 @@ class Login extends React.Component {
         event.preventDefault();
         console.log(this.state)
          this.setState({error: await CheckLogin(this.state)}) 
+         console.log(this.state.error)
       }
   }
     render() {
