@@ -41,6 +41,20 @@ class ShowStudents extends React.Component{
         }
     else{
         if(this.state.user.displayName==="Institute"){
+
+        const SearchByName=()=>{
+            firebase.firestore().collection('students')
+            .where("clgid","==",this.state.user.uid)
+            .onSnapshot((snapshot) => {
+              let data = snapshot.docs.map(doc => {
+                  const data = doc.data();
+                  const id = doc.id;
+                  return { id, ...data }
+              })
+              console.log(data)
+             this.setState({ students: data })
+          })
+        }
         return(
             <div>
                 <ShowHeader user={this.state.user.displayName}/>

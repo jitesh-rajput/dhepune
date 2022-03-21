@@ -3,22 +3,53 @@ import React from "react";
 import ShowHeader from "../constants/Header/ShowHeader";
 import { Navigate } from "react-router-dom";
 import firebase from "firebase";
+
+import MessageCard from "./MessageCard";
+import ShareMessage from "./ShareMessage";
+import MessagetoStudent from "./MessagetoStudent";
+
 class Inbox extends React.Component{
     componentDidMount(){
         firebase.auth().onAuthStateChanged((user) => {
             if (user) {
               console.log("Authenticated")
               this.setState({user:user})
+
+              firebase.firestore().collection("Messages")
+              .where("from","==",firebase.auth().currentUser.uid)
+              .onSnapshot((snapshot)=>{
+                  let data = snapshot.docs.map(doc => {
+                      const data = doc.data();
+                      const id = doc.id;
+                      return { id, ...data }
+                  })
+                  console.log(data)
+                  this.setState({inboxrecieved:data})
+              })
+            firebase.firestore().collection("Messages")
+              .where("to","==",firebase.auth().currentUser.uid)
+              .onSnapshot((snapshot)=>{
+                  let data = snapshot.docs.map(doc => {
+                      const data = doc.data();
+                      const id = doc.id;
+                      return { id, ...data }
+                  })
+                  console.log(data)
+                  this.setState({inboxsend:data})
+              })
             } else {
               console.log("Not Authenticated")
               this.setState({user:null})
             }
-          });
+          })
     }
     constructor(){
         super()
         this.state={
-            user:'none'
+            user:'none',
+            inboxrecieved:[],
+            inboxsend:[],
+            recieved:false
         }
     }
     render(){
@@ -27,32 +58,31 @@ class Inbox extends React.Component{
     }
     else{
     if(this.state.user.displayName==="Student"){
+        
     return(
         <div>
             <ShowHeader user={this.state.user.displayName}/>
                 <div className="container pt-5 ">
-                    <div className="row mt-5 ">
+                    <div className="row mt-5">
                     <h3 className="text-center pt-5">Inbox</h3>
-                    <div className="card border-dark mb-3 col-10 mt-2 m-auto" >
-                        <div className="card-header text-center"><h5>Message Title</h5></div>
-                        <div className="card-body text-dark">
-                        <h5 className="card-title">Message Body</h5>
-                        <p className="card-text">
-                            Some detail description
-                            Some quick example text to build on the card title and make up the bulk
-                            of the card's content.
-                        </p>
-                        
-                        <h5 className="card-title">Dark card title</h5>
-                        <p className="card-text">
-                            Some quick example text to build on the card title and make up the bulk
-                            of the card's content.
-                        </p>
-                        </div>
-                        <div className="card-footer text-muted">
-                        2 days ago
-                        </div>
+                    <div className="col-4 m-auto">
+                        <ShareMessage/>
+                        <button className="btn btn-info" onClick={()=>this.setState({recieved:!this.state.recieved})}>{this.state.recieved?'See Revieved Message':'See Send Messages'}</button>
                     </div>
+                    <h4 className="text-center"> {this.state.recieved?'Send Messages':' Revieved Message'} </h4>
+                    
+                    {
+                        this.state.recieved?
+                        this.state.inboxrecieved.map(data=>(
+                        <MessageCard data={data} key={data.id} recieved={this.state.recieved}/>
+                    ))
+                    :
+                    this.state.inboxsend.map(data=>(
+                        <MessageCard data={data} key={data.id} recieved={this.state.recieved}/>
+                    ))
+                    }
+                    
+                    
                     </div>
                 </div>
             </div>
