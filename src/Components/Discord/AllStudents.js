@@ -2,47 +2,39 @@ import ShowHeader from '../constants/Header/ShowHeader';
 import React from 'react';
 import firebase from 'firebase';
 import { Navigate } from 'react-router-dom';
+import VerifyCard from '../Profile/VerifyCard';
+import Select from 'react-select';
 
-const VerifyCard=()=>{
-    return(
-        <div className="py-3">
-            <table className="table table-bordered">
-                <thead>
-                    <tr>
-                    <th scope="col">Sr.No</th>
-                    <th scope="col">First</th>
-                    <th scope="col">Last name</th>
-                    <th scope="col">Middele name</th>
-                    <th scope="col">Colleage</th>
-                    <th scope="col">Stream</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Occupation</th>
-                    <th scope="col">Passing Out Date</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                    <th scope="row">1</th>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>Xuk</td>
-                    <td>Pimpari Chinchwad Colleage of Engineering and Research Reavet</td>
-                    <td>Science</td>
-                    <td>p7872378@gmail.com</td>
-                    <td>Engineering</td>
-                    <td>Otto</td>
-                    </tr>
-                </tbody>
-                </table>
-            </div>
-    )
-}
 class AllStudents extends React.Component{
     componentDidMount(){
         firebase.auth().onAuthStateChanged((user) => {
             if (user) {
-              console.log("Authenticated")
+              console.log("Authenticated",user.uid)
               this.setState({user:user})
+              if(user.displayName==="Admin"){
+              firebase.firestore().collection('students')
+              .onSnapshot((snapshot) => {
+                let data = snapshot.docs.map(doc => {
+                    const data = doc.data();
+                    const id = doc.id;
+                    return { id, ...data }
+                })
+                console.log(data)
+               this.setState({ students: data })
+
+               firebase.firestore().collection("Institutes")
+                .get().then((snapshot) => {
+                let data = snapshot.docs.map(doc => {
+                    const label = doc.data().clgname;
+                    const value = doc.id;
+                    return { value, label }
+                })
+                console.log(data)
+                this.setState({allcolleage:data})
+                })
+
+            })
+            }
             } else {
               console.log("Not Authenticated")
               this.setState({user:null})
@@ -52,7 +44,13 @@ class AllStudents extends React.Component{
     constructor(){
         super()
         this.state={
-            user:'none'
+            user:'none',
+            students:[], // display filter result data 
+            allcolleage:[],
+            colleage:'',
+            searchByName:'',
+            searchByStream:'',
+            searchByPdate:''
         }
     }
     render(){
@@ -60,71 +58,151 @@ class AllStudents extends React.Component{
             return(<Navigate to="/login" replace={true}/> )
         }
     else{
-        if(this.state.user.displayName==="Institute"){
+        if(this.state.user.displayName==="Admin"){
+            const year = [
+                { label: "2018", value: 1 },
+                { label: "2019", value: 2 },
+                { label: "2020", value: 3 },
+                { label: "2021", value: 4 },
+              ]
+        const SearchByName=()=>{
+            firebase.firestore().collection("students")
+            .where("name","==",`${this.state.searchByName}`)
+            .get().then((snapshot)=>{
+              let users=snapshot.docs.map(doc=>{
+                  const data=doc.data();
+                  const id=doc.id;
+                  return {id,...data}
+              })
+              console.log(users)        
+              this.setState({students:users})
+            })
+        }
+
+        const SearchByStream=()=>{
+            firebase.firestore().collection("students")
+            .where("stream","==",`${this.state.searchByStream}`)
+            .get().then((snapshot)=>{
+              let users=snapshot.docs.map(doc=>{
+                  const data=doc.data();
+                  const id=doc.id;
+                  return {id,...data}
+              })
+              console.log(users)        
+              this.setState({students:users})
+            })
+        }
+
+        const SearchByYear=()=>{
+            firebase.firestore().collection("students")
+            .where("pdate","==",`${this.state.searchByPdate.label}`)
+            .get().then((snapshot)=>{
+              let users=snapshot.docs.map(doc=>{
+                  const data=doc.data();
+                  const id=doc.id;
+                  return {id,...data}
+              })
+              console.log(users)        
+              this.setState({students:users})
+            })
+        }
+        
+        const SearchByClg=()=>{
+            firebase.firestore().collection("students")
+            .where("colleage","==",`${this.state.colleage.label}`)
+            .get().then((snapshot)=>{
+              let users=snapshot.docs.map(doc=>{
+                  const data=doc.data();
+                  const id=doc.id;
+                  return {id,...data}
+              })
+              console.log(users)        
+              this.setState({students:users})
+            })
+        }
+
         return(
             <div>
                 <ShowHeader user={this.state.user.displayName}/>
             <div className="container py-5">
-            <h3 className="pt-5 text-center mt-3">ALL Alumni Students </h3>
+            <h3 className="pt-5 text-center mt-3">ALL Students Data </h3>
             <div className="row py-3">
                 <div className="col-sm-6 px-5">
-                <form className="d-flex">
+                <div className='d-flex'>
                 <input
                 className="form-control me-2"
                 type="search"
                 placeholder="Search By Name"
                 aria-label="Search"
+                value={this.state.searchByName}
+                onChange={(event)=>this.setState({searchByName:event.target.value})}
                 />
-                <button className="btn btn-outline-info" type="submit">
+                <button className="btn btn-outline-info" onClick={SearchByName}>
                     Search
                 </button>
-                </form>
+                </div>
                 </div>
 
                 <div className="col-sm-6 px-5">
-                <form className="d-flex">
+                <div className="d-flex">
                 <input
                 className="form-control me-2"
                 type="search"
                 placeholder="Search By Stream"
                 aria-label="Search"
+                value={this.state.searchByStream}
+                onChange={(event)=>this.setState({searchByStream:event.target.value})}
                 />
-                <button className="btn btn-outline-info" type="submit">
+                <button className="btn btn-outline-info" onClick={SearchByStream}>
                     Search
                 </button>
-                </form>
+                </div>
                 </div>
 
                 <div className="col-sm-6 px-5 pt-2">
-                <form className="d-flex">
-                <input
-                className="form-control me-2"
-                type="search"
-                placeholder="Search By College"
-                aria-label="Search"
-                />
-                <button className="btn btn-outline-info" type="submit">
+                <div className="d-flex">
+                <div className="dropdown m-4 text-center">
+                    <Select options={year}
+                      value={this.state.searchByPdate}
+                      onChange={(value) => this.setState({ searchByPdate: value })}
+                      placeholder="Select Stream"
+                      required
+                    />
+                  </div>
+                  <button className="btn btn-outline-info" onClick={SearchByYear}>
                     Search
                 </button>
-                </form>
                 </div>
+                </div>
+
                 <div className="col-sm-6 px-5 pt-2">
-                <form className="d-flex">
-                <input
-                className="form-control me-2"
-                type="search"
-                placeholder="Search By Year"
-                aria-label="Search"
-                />
-                <button className="btn btn-outline-info" type="submit">
+                <div className="d-flex">
+                <div className="dropdown m-4 text-center">
+                    <Select options={this.state.allcolleage}
+                      value={this.state.colleage}
+                      onChange={(value) => this.setState({ colleage: value })}
+                      placeholder="Select University"
+                      required
+                      minMenuHeight={200}
+                    />
+                  </div>
+                  <button className="btn btn-outline-info w-10" onClick={SearchByClg}>
                     Search
                 </button>
-                </form>
                 </div>
+                </div>
+
             </div>
 
             <div className="row pt-4">
-                <VerifyCard/>
+            {this.state.students[0]?
+             this.state.students.map(data=>(
+             <VerifyCard data={data} key={data.id}/>
+           ))
+           :
+           <h4 className='text-center'>No Result Found</h4>
+           }     
+               
             </div>
             </div>
             </div>

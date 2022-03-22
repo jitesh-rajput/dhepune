@@ -2,6 +2,7 @@ import Header2 from "../constants/Header/Header2";
 import React from "react";
 import Alert from "../constants/Alert";
 import CreateInstitute from "../../firebase/CreateInstitute";
+import CreateAdmin from "../../firebase/CreateAdmin";
 
 class ClgRegister extends React.Component {
   constructor(props) {
@@ -20,6 +21,7 @@ class ClgRegister extends React.Component {
         this.setState({ error: "Password Must Be Same ..!" })
       }
       else {
+        //this.setState({error: await CreateAdmin(this.state)}) 
         this.setState({error: await CreateInstitute(this.state)}) 
         //console.log(CreateUser(this.state))
       }

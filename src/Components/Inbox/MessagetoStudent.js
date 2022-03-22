@@ -42,8 +42,8 @@ class MessagetoStudent extends React.Component{
         .set({
             from:firebase.auth().currentUser.uid,
             to:this.state.student.value,
-            senduname:this.state.student.label,
-            touname:this.state.clgname,
+            senduname:this.state.clgname,
+            touname:this.state.student.label,
             title:this.state.title,
             desc:this.state.desc,
             creation:firebase.firestore.FieldValue.serverTimestamp()

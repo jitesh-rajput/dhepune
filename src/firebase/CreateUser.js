@@ -24,10 +24,10 @@ require('firebase/firestore')
                               sirname,
                               mname,
                               occupation,
-                              stream:branch.value,
+                              stream:branch.label,
                               colleage:colleage.label,
                               clgid:colleage.value,
-                              pdate,
+                              pdate:pdate.label,
                               isVerified:"false"
                           }
                       ).then(()=>{
@@ -44,10 +44,10 @@ require('firebase/firestore')
                                 sirname,
                                 mname,
                                 occupation,
-                                stream:branch.value,
+                                stream:branch.label,
                                 colleage:colleage.label,
                                 clgid:colleage.value,
-                                pdate,
+                                pdate:pdate.label,
                                 isVerified:"false"
                             }
                         )

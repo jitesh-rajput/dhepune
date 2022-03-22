@@ -1,6 +1,6 @@
 const VerifyCard=(data)=>{
     data=data.data
-    let pdate=new Date(data.pdate).getMonth()+'/'+new Date(data.pdate).getFullYear()
+    //let pdate=new Date(data.pdate).getMonth()+'/'+new Date(data.pdate).getFullYear()
     let danger=data.isVerified==="block"?'bg-danger':null
     let success=data.isVerified==="true"?'bg-success':null
     let dark=data.isVerified==="false"?'bg-dark':null
@@ -12,7 +12,7 @@ const VerifyCard=(data)=>{
                     <th scope="col">Sr.No</th>
                     <th scope="col">First</th>
                     <th scope="col">Last name</th>
-                    <th scope="col">Middele name</th>
+                    <th scope="col">Middle name</th>
                     <th scope="col">Colleage</th>
                     <th scope="col">Stream</th>
                     <th scope="col">Email</th>
@@ -31,7 +31,7 @@ const VerifyCard=(data)=>{
                     <td>{data.stream}</td>
                     <td>{data.email}</td>
                     <td>{data.occupation}</td>
-                    <td>{pdate}</td>
+                    <td>{data.pdate}</td>
                     <td className= {`${danger} ${success} ${dark} text-white`} >{data.isVerified}</td>
                     </tr>
                 </tbody>

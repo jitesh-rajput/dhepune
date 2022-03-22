@@ -27,7 +27,7 @@ class Registeration1 extends React.Component {
       name: '',
       mname: '',
       branch: '',
-      pdate: Date(),
+      pdate: '',
       colleage: '',
       occupation: '',
       email: '',
@@ -68,7 +68,12 @@ class Registeration1 extends React.Component {
       { label: "Arts", value: 1 },
       { label: "Science", value: 2 },
       { label: "Law", value: 3 },
-      { label: "Engineering", value: 4 },
+    ]
+    const year = [
+      { label: "2018", value: 1 },
+      { label: "2019", value: 2 },
+      { label: "2020", value: 3 },
+      { label: "2021", value: 4 },
     ]
     return (
       <div>
@@ -88,7 +93,7 @@ class Registeration1 extends React.Component {
               <div className="row">
                 <div className="col-md-5 col-10 mx-4">
                   <div className="m-4">
-                    <label className="form-label">Sirname</label>
+                    <label className="form-label">Surname</label>
                     <input type="text" className="form-control" 
                       value={this.state.sirname}
                       onChange={(event) => this.setState({ sirname: event.target.value })}
@@ -133,9 +138,13 @@ class Registeration1 extends React.Component {
                 </div>
 
                 <div className="col-md-5 col-10 mx-4">
-                  <div className="m-4">
-                    <label htmlFor="startDate">Passing Out Date</label>
-                    <input id="startDate" className="form-control" type="date" required></input>
+                  <div className="dropdown m-4 text-center">
+                    <Select options={year}
+                      value={this.state.pdate}
+                      onChange={(value) => this.setState({ pdate: value })}
+                      placeholder="Select Passing Out Year"
+                      required
+                    />
                   </div>
 
                   <div className="dropdown m-4 text-center">

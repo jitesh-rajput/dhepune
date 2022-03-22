@@ -6,18 +6,43 @@ const AddNotice=(role)=>{
     const [title, setTitle] = useState('');
     const [desc,setDesc] =useState('');
     const [link,setLink] =useState('');
-    if(role==="Institute" || role==="Admin"){
-        const ShareNotice=(e)=>{
-            e.preventDefault();
-            console.log(link,desc,title)
-            firebase.firestore().collection(`${role}portal`)
-            .doc().set({
-                clgid:firebase.auth().currentUser.uid,
-                title,
-                desc,  
-                link,
-                clgname:'pccoer',
-            })
+
+    if(role==="Institute" | role==="Admin"){
+        
+            const ShareNotice=(e)=>{
+                e.preventDefault();
+                console.log(link,desc,title)
+                if(role==="Admin"){
+                firebase.firestore().collection(`${role}portal`)
+                .doc().set({
+                    adminid:firebase.auth().currentUser.uid,
+                    title,
+                    desc,  
+                    link,
+                    //clgname:'pccoer',
+                })
+                }
+                else{
+                console.log(link,desc,title)
+                const uid=firebase.auth().currentUser.uid;
+                firebase.firestore().collection('Institutes')
+                .where("uid","==",uid)
+                .get().then((snapshot) => {
+                let clg = snapshot.docs.map(doc => {
+                    return doc.data().clgname; 
+                })
+                console.log(clg)
+                firebase.firestore().collection(`${role}portal`)
+                .doc().set({
+                    clgid:uid,
+                    title,
+                    desc,  
+                    link,
+                    clgname:clg[0],
+                })
+                })
+                 
+            }
         }
         return(
             <div className="row py-4">

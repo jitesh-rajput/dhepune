@@ -49,7 +49,7 @@ const VerifyCard=(data)=>{
     }
 
     data=data.data
-    let pdate=new Date(data.pdate).getMonth()+'/'+new Date(data.pdate).getFullYear()
+   
 
 
     return(
@@ -85,7 +85,7 @@ const VerifyCard=(data)=>{
                         </tr>
                         <tr>
                         <th scope="row">PassOut Date</th>
-                        <td>{pdate}</td>
+                        <td>{data.pdate}</td>
                         </tr>
                     </tbody>
                     </table>

@@ -117,13 +117,9 @@ class UpdateProfile extends React.Component {
                 <div className="text-center">
                 <img className="m-auto rounded-circle" src={this.state.img} height={100} width={100} />
                 </div>
-                <div className="mb-3">
-                    <input className="form-control" type="file" accept=".jpg,.gif,.png" 
-                    onChange={event=>this.setState({new_pic:event.target.files[0]})}
-                    />
-                </div>
+               
                   <div className="mb-3">
-                    <label className="form-label">Sir Name</label>
+                    <label className="form-label">Surname</label>
                     <input type="text" className="form-control" id="Username"
                     value={this.state.sirname}
                     onChange={(event) => this.setState({ sirname: event.target.value })}
@@ -157,11 +153,6 @@ class UpdateProfile extends React.Component {
 
                   <div className="text-center">
                   <button disabled={this.state.loading} type="submit" className="btn btn-info my-2 mx-5 px-5 py-2">Update</button>
-                  <div className="row">
-                    <div className=" col-10">
-                    <Link className="m-3 px-5 btn btn-info" to="/forgetpassword" >Reset Password</Link>
-                    </div>
-                    </div>
                   </div>
                 </form>
       </div>

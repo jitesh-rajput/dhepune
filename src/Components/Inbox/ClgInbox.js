@@ -66,7 +66,7 @@ class ClgInbox extends React.Component{
                     <h3 className="text-center pt-5">Inbox</h3>
                     <div className="col-4 m-auto">
                         <MessagetoStudent/>
-                        <button className="btn btn-info" onClick={()=>this.setState({recieved:!this.state.recieved})}>{this.state.recieved?'See Revieved Message':'See Send Messages'}</button>
+                        <button className="btn btn-dark m-2" onClick={()=>this.setState({recieved:!this.state.recieved})}>{this.state.recieved?'See Revieved Message':'See Send Messages'}</button>
                     </div>
                     <h4 className="text-center"> {this.state.recieved?'Send Messages':' Revieved Message'} </h4>
                     {

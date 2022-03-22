@@ -4,14 +4,13 @@ import AdminHeader from "./AdminHeader";
 
 const ShowHeader=(user)=>{
     user=user.user;
-    console.log(user)
     if(user==="Student"){
         return (<Header/>)
     }
     if(user==="Institute"){
         return(<ClgHeader/>)
     }
-    if(user==="admin"){
+    if(user==="Admin"){
         return(<AdminHeader/>)
     }
     else{

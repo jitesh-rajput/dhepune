@@ -12,8 +12,10 @@ const CheckLogin=async(data)=> {
               return doc.data().isVerified
           })
          console.log(isValide)
-         err=isValide[0]==='true'?'':"Account Verfication Pending .. "
-         err=isValide[0]==="block"?'Institute Block Your Request ..!':''
+     
+         //err=isValide[0]==='true'?err:"Account Verfication Pending .. "
+         err=isValide[0]==="block"?'Institute Block Your Request ..!':err
+        err=isValide[0]==="false"?"Account Verification Pending ..":err
       })
       console.log(err)
     }
@@ -24,16 +26,7 @@ const CheckLogin=async(data)=> {
            console.log(results)
            const user=firebase.auth().currentUser
            console.log(user.emailVerified)
-           if(user.emailVerified){
-            /* firebase.auth().currentUser.updateProfile({displayName:"Institute"}).then(()=>{
-                console.log(firebase.auth().currentUser.displayName)
-               })
-               
-             firebase.auth().currentUser.updateProfile({displayName:"Student"}).then(()=>{
-                console.log(firebase.auth().currentUser.displayName)
-               })
-               */
-    
+           if(user.emailVerified){    
             err="Login"
            }
            else{

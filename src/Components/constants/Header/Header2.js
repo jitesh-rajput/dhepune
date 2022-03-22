@@ -8,7 +8,7 @@ const Header2 =()=>{
           <nav className="navbar navbar-expand-lg navbar-dark">
           <div className="container-fluid">
             <Link to="/" className="navbar-brand">
-              <h3 className="fw-bolder">DEH Pune</h3>
+              <h3 className="fw-bolder">DHE Pune</h3>
             </Link>
 
             <button
@@ -42,6 +42,11 @@ const Header2 =()=>{
                 <Link className="dropdown-item" to="/clogin">
                 <li>
                     College
+                </li>
+                </Link>
+                <Link className="dropdown-item" to="/adminlogin">
+                <li>
+                    Admin
                 </li>
                 </Link>
               </ul>

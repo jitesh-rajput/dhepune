@@ -7,17 +7,28 @@ import {FaTrash} from 'react-icons/fa'
 import AddNotice from "./AddNotice";
 
 const Portalcard=(data)=>{
-    console.log(data)
+    
     let role=data.role
+    console.log("role ===",role)
     data=data.data
     if(role==="Institute" || role==="Admin"){
+    
     const DeletePost=(id)=>{
         if(window.confirm("Are you sure want to delete ..!")===true){
-        firebase.firestore().collection('Instituteportal')
+            if(role==="Institute"){
+            firebase.firestore().collection('Instituteportal')
               .doc(`${id}`)
               .delete().then(()=>{
-                  console.log("deleted ..!")
+                  console.log("deleted by institute..!")
               })
+            }
+            else{
+                firebase.firestore().collection('Adminportal')
+                .doc(`${id}`)
+                .delete().then(()=>{
+                    console.log("deleted by admin ..!")
+                })
+            }
     }
     }
     return(
@@ -33,9 +44,9 @@ const Portalcard=(data)=>{
         <p className="card-text">
            {data.desc}
         </p>
-        <Link to={`${data.link}`}>
+        <a href={`${data.link}`} target="_blank">
             {data.link}
-        </Link>
+        </a>
     </div>
     )
     }
@@ -85,10 +96,23 @@ class Main extends React.Component{
                         return { id, ...data }
                     })
                     console.log(clg)
+                    console.log(clg[0].clgname)
                     this.setState({clgnotice:clg , clgname:clg[0].clgname})
+                })
+
+                firebase.firestore().collection('Adminportal')
+                .onSnapshot((snapshot)=>{
+                    let admin = snapshot.docs.map(doc => {
+                        const data = doc.data();
+                        const id = doc.id;
+                        return { id, ...data }
+                    })
+                    console.log(admin)
+                    this.setState({adminnotice:admin})
                 })
               })
             }
+
 
             if(user.displayName==="Institute"){   
                 // fetch institute portal 
@@ -103,12 +127,38 @@ class Main extends React.Component{
                     })
                     console.log(clg)
                     this.setState({clgnotice:clg , clgname:clg[0].clgname})
+
+                    firebase.firestore().collection('Adminportal')
+                    .onSnapshot((snapshot)=>{
+                        let admin = snapshot.docs.map(doc => {
+                            const data = doc.data();
+                            const id = doc.id;
+                            return { id, ...data }
+                        })
+                        console.log(admin)
+                        this.setState({adminnotice:admin})
+                    })
+                })
+            
+            }
+            if(user.displayName==="Admin"){   
+                // fetch institute portal 
+
+                firebase.firestore().collection('Adminportal')
+                .onSnapshot((snapshot)=>{
+                    let admin = snapshot.docs.map(doc => {
+                        const data = doc.data();
+                        const id = doc.id;
+                        return { id, ...data }
+                    })
+                    console.log(admin)
+                    this.setState({adminnotice:admin})
                 })
             
             }
 
-
-            } else {
+            }
+             else {
               console.log("Not Authenticated")
               this.setState({user:null})
             }
@@ -119,7 +169,9 @@ class Main extends React.Component{
         this.state={
             user:'none',
             collegeid:'',
-            clgnotice:[]
+            clgnotice:[],
+            adminnotice:[],
+            clgname:''
         }
     }
     render(){
@@ -134,14 +186,14 @@ class Main extends React.Component{
             return(<Navigate to="/login" replace={true}/> )
         }
         else{
+        console.log(this.state.user.displayName,"asdfasdfsdfasfd")
         return(
             <div>
                 <ShowHeader user={this.state.user.displayName}/>
                 <div className="container pt-5 ">
-                
                     <div className="row mt-5 ">
                     <div className="card border-dark mb-3 col-10 mt-5 mx-4" >
-                        <div className="card-header text-center"><h5>{this.state.clgname} Portal</h5></div>
+                        <div className="card-header text-center"><h5>{this.state.clgname}</h5></div>
                         <div className="card-body text-dark">
                         {this.state.clgnotice.map(data=>(
                             <Portalcard role={this.state.user.displayName} data={data} key={data.id}/>
@@ -151,10 +203,10 @@ class Main extends React.Component{
                     </div>
                   
                     <div className="card border-dark mb-3 col-10  mt-5 mx-4" >
-                        <div className="card-header text-center"><h5>University Portal</h5></div>
+                        <div className="card-header text-center"><h5>Admin Portal</h5></div>
                         <div className="card-body text-dark">
-                        {this.state.clgnotice.map(data=>(
-                            <Portalcard role={null} data={data} key={data.id}/>
+                        {this.state.adminnotice.map(data=>(
+                            <Portalcard role={this.state.user.displayName} data={data} key={data.id}/>
                         ))}
                         </div>
                     </div>
@@ -164,7 +216,7 @@ class Main extends React.Component{
                         <a className="col m-3 px-5 py-2 btn btn-info" onClick={LogOut} >Log Out</a>
                         </div>
                     </div>
-                    <AddNotice role={this.state.user.displayName} />
+                    <AddNotice role={this.state.user.displayName}/>
                 </div>
             </div>
         )

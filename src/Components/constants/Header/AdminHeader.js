@@ -1,5 +1,5 @@
 
-
+import firebase from "firebase";
 import { Link } from "react-router-dom";
 
 const AdminHeader =()=>{
@@ -17,13 +17,20 @@ const AdminHeader =()=>{
     if((window.location.href).includes('allstudent')){
       active="allstudent"
     }
-    
+    const LogOut=(e)=>{
+      e.preventDefault();
+      sessionStorage.clear();
+      firebase.auth().signOut();
+      console.log("User Signed Out !")
+      this.setState({logout:true})
+    }
+
     return(
       <div>
       <nav className="navbar fixed-top navbar-expand-lg navbar-dark bg-dark py-3 ">
     <div className="container">
     <Link to="/" className="navbar-brand logo">
-      <h3 className="fw-bolder">DEH Pune</h3>
+      <h3 className="fw-bolder">DHE Pune</h3>
     </Link>
     <button
       className="navbar-toggler"
@@ -46,14 +53,7 @@ const AdminHeader =()=>{
             <h5>HOME</h5>
           </Link>
         </li>
-        <li className="nav-item">
-          <Link to="/UniInbox"
-          //className="text-decoration-none text-white px-3 mx-4 nav-link text-center nav-link"
-           className={(active==="inbox") ? 'active px-3 mx-4 nav-link text-center btn-info btn':'px-3 mx-4 nav-link text-center nav-link'}
-            >
-            <h5>INBOX</h5>
-          </Link>
-        </li>
+        
         <li className="nav-item">
         <Link to="/allstudent"
         //className="text-decoration-none text-white px-3 mx-4 nav-link text-center nav-link"
@@ -63,12 +63,9 @@ const AdminHeader =()=>{
           </Link>
         </li>
         <li className="nav-item">
-          <Link to="/profile" 
-          //className="text-decoration-none text-white px-3 mx-4 nav-link text-center nav-link"
-          className={(active==="logout") ? 'active px-3 mx-4 nav-link text-center btn-info btn':'px-3 mx-4 nav-link text-center nav-link'}
-           >
-           <h5>LOGOUT</h5> 
-          </Link>
+           <h5  className={(active==="logout") ? 'active px-3 mx-4 nav-link text-center btn-info btn':'px-3 mx-4 nav-link text-center nav-link'}
+           onClick={LogOut}
+           >LOGOUT</h5> 
         </li>
       </ul>
     </div>

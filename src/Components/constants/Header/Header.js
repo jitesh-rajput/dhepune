@@ -23,7 +23,7 @@ const Header =()=>{
       <nav className="navbar fixed-top navbar-expand-lg navbar-dark bg-dark py-3 ">
     <div className="container">
     <Link to="/" className="navbar-brand logo">
-      <h3 className="fw-bolder">DEH Pune</h3>
+      <h3 className="fw-bolder">DHE Pune</h3>
     </Link>
     <button
       className="navbar-toggler"

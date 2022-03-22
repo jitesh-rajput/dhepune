@@ -71,7 +71,7 @@ class Profile extends React.Component {
               <table className="table table-bordered">
               <tbody>
                 <tr>
-                  <th scope="row">Sir Name</th>
+                  <th scope="row">Surname </th>
                   <td>{this.state.students.sirname}</td>
                 </tr>
                 <tr>
