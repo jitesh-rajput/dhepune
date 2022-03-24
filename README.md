@@ -1,70 +1,25 @@
-# Getting Started with Create React App
+# Mindquisitive Hackathon
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Problem Statement :- The Directorate of Higher Education has 7 Government Colleges and 26 aided colleges under it. Altogether, more than 10000 students that pass out from them every year either choose to opt for further studies, work or have their own startups. Currently, there is no mechanism for the colleges and the Directorate to keep a track of the students passing out. Hence, the problem is to develop a web based application for colleges and the Directorate to keep a track of the Alumni. 
+!
 
-## Available Scripts
+# Approach details :- 
+- Our plan includes the creation of a portal where institutions and the Department of Higher Education can view current professions of alumni students.
+- Alumni members should be able to register on their own.
+- Enabling colleges to verify and authenticate their alumni.
+- Alumni members have the option to update their information.
+- Along with connecting students with institutes, the platform also allows members to participate in group discussions.
+- Allow universities to search for information using parameters such as year, stream.
+- Allow DEH administration to look for information based on criteria like colleges, year, and stream.
+- The university and the administrator can send messages and emails to alumni members.
+- Institutes can also arrange events and post alerts on the site.
+- The platform's main focus is on security features, such as secured authentication and authorization of members, as well as data confidentiality.
 
-In the project directory, you can run:
+# Technology :-
+- React JS 
+- Bootstrap 
+- Google Firebase 
 
-### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+#FlowChart :-
+![flowchart](https://user-images.githubusercontent.com/70306351/159992760-f25c375e-8ff9-4b8c-b6a6-db3dc250936e.PNG)
