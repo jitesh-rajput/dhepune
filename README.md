@@ -18,7 +18,8 @@ The Directorate of Higher Education has 7 Government Colleges and 26 aided colle
 
 # Technology :-
 - React JS 
-- Bootstrap 
+- Bootstrap
+- Redux 
 - Google Firebase 
 
 
