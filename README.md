@@ -1,7 +1,8 @@
 # Mindquisitive Hackathon
 
-# Problem Statement :- The Directorate of Higher Education has 7 Government Colleges and 26 aided colleges under it. Altogether, more than 10000 students that pass out from them every year either choose to opt for further studies, work or have their own startups. Currently, there is no mechanism for the colleges and the Directorate to keep a track of the students passing out. Hence, the problem is to develop a web based application for colleges and the Directorate to keep a track of the Alumni. 
-!
+# Problem Statement :- 
+The Directorate of Higher Education has 7 Government Colleges and 26 aided colleges under it. Altogether, more than 10000 students that pass out from them every year either choose to opt for further studies, work or have their own startups. Currently, there is no mechanism for the colleges and the Directorate to keep a track of the students passing out. Hence, the problem is to develop a web based application for colleges and the Directorate to keep a track of the Alumni. 
+
 
 # Approach details :- 
 - Our plan includes the creation of a portal where institutions and the Department of Higher Education can view current professions of alumni students.
@@ -21,5 +22,5 @@
 - Google Firebase 
 
 
-#FlowChart :-
+# FlowChart :-
 ![flowchart](https://user-images.githubusercontent.com/70306351/159992760-f25c375e-8ff9-4b8c-b6a6-db3dc250936e.PNG)
